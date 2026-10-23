@@ -1,0 +1,693 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuono Consulting | Accounting</title>
+<style>
+:root {
+  --blue:#2563eb;
+  --navy:#132d52;
+  --bg:#f4f7fc;
+  --line:#e2e8f0;
+  --muted:#64748b;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:#1e293b;
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
+}
+header {
+  background:linear-gradient(120deg,#112b51,#20579b);
+  color:white;
+  padding:45px 6%;
+}
+header h1 {
+  font-size:clamp(28px,4vw,46px);
+  margin:15px 0 8px;
+}
+header p { color:#dce8fa; }
+main {
+  max-width:1150px;
+  margin:auto;
+  padding:25px 18px;
+}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.stat,.panel {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:22px;
+}
+.stat small {
+  display:block;
+  color:var(--muted);
+}
+.stat strong {
+  display:block;
+  font-size:26px;
+  margin-top:5px;
+}
+nav {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  background:white;
+  padding:8px;
+  margin:22px 0;
+  border-radius:12px;
+}
+button {
+  font:inherit;
+  border:0;
+  cursor:pointer;
+  border-radius:9px;
+  padding:11px 15px;
+  font-weight:bold;
+}
+nav button {
+  white-space:nowrap;
+  background:transparent;
+  color:#52637a;
+}
+nav button.active {
+  background:var(--blue);
+  color:white;
+}
+section { display:none; }
+section.active { display:block; }
+.panel { margin-bottom:18px; }
+h2 { margin:0 0 8px; }
+p { color:#64748b; }
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:640px;
+  font-size:14px;
+}
+th,td {
+  padding:11px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+}
+th {
+  background:#eff5ff;
+  color:#425979;
+}
+.right { text-align:right; }
+.total {
+  background:#eaf2ff;
+  font-weight:bold;
+}
+.scroll { overflow-x:auto; }
+.badge {
+  background:#eaf2ff;
+  color:#1d4ed8;
+  padding:4px 8px;
+  border-radius:6px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+.note {
+  background:#f0f6ff;
+  border-left:4px solid var(--blue);
+  padding:15px;
+  border-radius:8px;
+  margin-top:16px;
+}
+details {
+  border:1px solid var(--line);
+  background:white;
+  border-radius:12px;
+  margin-bottom:12px;
+  overflow:hidden;
+}
+summary {
+  padding:17px;
+  cursor:pointer;
+  font-weight:bold;
+}
+details[open] summary { background:#eff6ff; }
+.details-content { padding:12px; overflow-x:auto; }
+input {
+  width:100%;
+  padding:13px;
+  border:1px solid #cbd5e1;
+  border-radius:9px;
+  margin:12px 0 20px;
+}
+.primary {
+  background:var(--blue);
+  color:white;
+}
+.success {
+  color:#047857;
+  font-weight:bold;
+}
+footer {
+  text-align:center;
+  color:#94a3b8;
+  padding:30px;
+}
+@media(max-width:700px) {
+  .stats,.grid { grid-template-columns:1fr; }
+  .stat strong { font-size:23px; }
+}
+@media print {
+  header { background:white; color:black; }
+  header p { color:#555; }
+  nav,button,input { display:none!important; }
+  section { display:block!important; break-before:page; }
+  .panel,details { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>CUONO CONSULTING / ACCOUNTING</div>
+  <h1>Jurnal Penyesuaian & NSSD</h1>
+  <p>
+    Tugas 2 Pengantar Akuntansi<br>
+    Periode 31 Mei 2025 | P3.1
+  </p>
+  <button onclick="window.print()">
+    Cetak / Simpan PDF
+  </button>
+</header>
+
+<main>
+
+<div class="stats">
+  <div class="stat">
+    <small>Total Jurnal Penyesuaian</small>
+    <strong>7 Jurnal</strong>
+  </div>
+  <div class="stat">
+    <small>Total Debit & Kredit NSSD</small>
+    <strong id="summaryTotal">€37.944</strong>
+  </div>
+  <div class="stat">
+    <small>Status Neraca</small>
+    <strong id="status" class="success">Seimbang</strong>
+  </div>
+</div>
+
+<nav>
+  <button class="active" onclick="show('home',this)">
+    Beranda
+  </button>
+  <button onclick="show('soal',this)">Soal</button>
+  <button onclick="show('jurnal',this)">Jurnal J4</button>
+  <button onclick="show('ledger',this)">Buku Besar</button>
+  <button onclick="show('nssd',this)">NSSD</button>
+  <button onclick="show('pembahasan',this)">
+    Pembahasan
+  </button>
+</nav>
+
+<section id="home" class="active">
+  <div class="panel">
+    <h2>Selamat Datang</h2>
+    <p>
+      Website ini membahas penyelesaian tugas
+      akuntansi Cuono Consulting berdasarkan
+      trial balance tanggal 31 Mei 2025.
+    </p>
+    <div class="grid">
+      <div class="note">
+        <b>A. Jurnal Penyesuaian</b>
+        <p>7 transaksi pada halaman J4.</p>
+      </div>
+      <div class="note">
+        <b>B. Buku Besar</b>
+        <p>Posting debit, kredit, dan saldo akhir.</p>
+      </div>
+      <div class="note">
+        <b>C. Adjusted Trial Balance</b>
+        <p>Neraca saldo setelah penyesuaian.</p>
+      </div>
+      <div class="note">
+        <b>Laba Bersih Mei 2025</b>
+        <p>€2.906 setelah semua penyesuaian.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="soal">
+  <div class="panel">
+    <h2>Trial Balance Awal</h2>
+    <p>Cuono Consulting, May 31, 2025</p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Account</th>
+            <th class="right">Debit</th>
+            <th class="right">Credit</th>
+          </tr>
+        </thead>
+        <tbody id="original"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Informasi Tambahan</h2>
+    <div id="facts" class="grid"></div>
+  </div>
+</section>
+
+<section id="jurnal">
+  <div class="panel">
+    <h2>General Journal | J4</h2>
+    <p>Adjusting Entries, 31 Mei 2025</p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Ref.</th>
+            <th>Akun</th>
+            <th>Account Name</th>
+            <th class="right">Debit</th>
+            <th class="right">Credit</th>
+          </tr>
+        </thead>
+        <tbody id="journalTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="ledger">
+  <div class="panel">
+    <h2>General Ledger</h2>
+    <p>
+      Klik setiap akun untuk melihat posting.
+      Tanda ✓ merupakan referensi saldo awal.
+      J4 merupakan referensi jurnal penyesuaian.
+    </p>
+    <input
+      id="search"
+      placeholder="Cari nomor atau nama akun..."
+      oninput="filterLedger()"
+    >
+    <div id="ledgerList"></div>
+  </div>
+</section>
+
+<section id="nssd">
+  <div class="panel">
+    <h2>Adjusted Trial Balance</h2>
+    <p>Cuono Consulting | May 31, 2025</p>
+    <button class="primary" onclick="exportCSV()">
+      Download CSV
+    </button>
+    <div class="scroll" style="margin-top:20px">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Account Name</th>
+            <th class="right">Debit</th>
+            <th class="right">Credit</th>
+          </tr>
+        </thead>
+        <tbody id="adjusted"></tbody>
+      </table>
+    </div>
+    <div class="note" id="check"></div>
+  </div>
+</section>
+
+<section id="pembahasan">
+  <div class="panel">
+    <h2>Cara Menghitung Penyesuaian</h2>
+    <div id="explanation" class="grid"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Cuono Consulting © 2025<br>
+  Accounting Learning Dashboard
+</footer>
+
+<script>
+// DATA AKUN DARI SOAL
+const accounts = [
+  ['101','Cash',4500,0],
+  ['112','Accounts Receivable',6000,0],
+  ['126','Supplies',1900,0],
+  ['130','Prepaid Insurance',3600,0],
+  ['149','Equipment',11400,0],
+  ['150','Accumulated Depreciation—Equipment',0,0],
+  ['201','Accounts Payable',0,4500],
+  ['209','Unearned Service Revenue',0,2000],
+  ['212','Salaries and Wages Payable',0,0],
+  ['311','Share Capital—Ordinary',0,18700],
+  ['400','Service Revenue',0,9500],
+  ['631','Supplies Expense',0,0],
+  ['717','Depreciation Expense',0,0],
+  ['722','Insurance Expense',0,0],
+  ['726','Salaries and Wages Expense',6400,0],
+  ['729','Rent Expense',900,0],
+  ['732','Utilities Expense',0,0]
+].map(a=>({
+  code:a[0],
+  name:a[1],
+  debit:a[2],
+  credit:a[3]
+}));
+
+// DATA JURNAL PENYESUAIAN
+const entries = [
+  {
+    id:1,d:'631',c:'126',amount:900,
+    title:'Supplies Used',
+    formula:'Supplies used = €900',
+    desc:'Pemakaian perlengkapan menjadi beban.'
+  },
+  {
+    id:2,d:'732',c:'201',amount:250,
+    title:'Accrued Utilities',
+    formula:'Utilities incurred = €250',
+    desc:'Utilitas belum dibayar, sehingga menambah utang usaha.'
+  },
+  {
+    id:3,d:'722',c:'130',amount:150,
+    title:'Insurance Expense',
+    formula:'€3.600 ÷ 24 bulan = €150',
+    desc:'Asuransi satu bulan menjadi beban.'
+  },
+  {
+    id:4,d:'209',c:'400',amount:1600,
+    title:'Earned Revenue',
+    formula:'€2.000 − €400 = €1.600',
+    desc:'Pendapatan jasa yang telah diperoleh.'
+  },
+  {
+    id:5,d:'726',c:'212',amount:1104,
+    title:'Accrued Salaries',
+    formula:'2 × (€920 ÷ 5) × 3 = €1.104',
+    desc:'Gaji Senin sampai Rabu belum dibayar.'
+  },
+  {
+    id:6,d:'717',c:'150',amount:190,
+    title:'Depreciation',
+    formula:'€11.400 ÷ 60 = €190',
+    desc:'Penyusutan peralatan selama satu bulan.'
+  },
+  {
+    id:7,d:'112',c:'400',amount:1700,
+    title:'Accrued Service Revenue',
+    formula:'Unrecorded invoices = €1.700',
+    desc:'Jasa sudah diberikan tetapi belum dicatat.'
+  }
+];
+
+const euro = n=>'€'+n.toLocaleString('de-DE');
+const money = n=>n ? euro(n) : '—';
+const getAccount = code=>
+  accounts.find(a=>a.code===code);
+
+function show(id,button){
+  document.querySelectorAll('section').forEach(s=>{
+    s.classList.toggle('active',s.id===id);
+  });
+  document.querySelectorAll('nav button').forEach(b=>{
+    b.classList.remove('active');
+  });
+  button.classList.add('active');
+}
+
+// HITUNG POSTING
+function transactions(code){
+  let result=[];
+  entries.forEach(e=>{
+    if(e.d===code){
+      result.push({
+        ref:e.id,debit:e.amount,credit:0
+      });
+    }
+    if(e.c===code){
+      result.push({
+        ref:e.id,debit:0,credit:e.amount
+      });
+    }
+  });
+  return result;
+}
+
+function endingBalance(a){
+  let net=a.debit-a.credit;
+  transactions(a.code).forEach(t=>{
+    net+=t.debit-t.credit;
+  });
+  return {
+    debit:Math.max(net,0),
+    credit:Math.max(-net,0)
+  };
+}
+
+// RENDER TABEL
+function makeTable(id,data){
+  let debit=0,credit=0;
+  let html='';
+
+  data.forEach(a=>{
+    debit+=a.debit;
+    credit+=a.credit;
+    html+=`
+      <tr>
+        <td><span class="badge">${a.code}</span></td>
+        <td>${a.name}</td>
+        <td class="right">${money(a.debit)}</td>
+        <td class="right">${money(a.credit)}</td>
+      </tr>
+    `;
+  });
+
+  html+=`
+    <tr class="total">
+      <td colspan="2">TOTAL</td>
+      <td class="right">${euro(debit)}</td>
+      <td class="right">${euro(credit)}</td>
+    </tr>
+  `;
+  document.getElementById(id).innerHTML=html;
+  return {debit,credit};
+}
+
+makeTable(
+  'original',
+  accounts.filter(a=>a.debit||a.credit)
+);
+
+// JURNAL
+let journalHTML='';
+entries.forEach(e=>{
+  journalHTML+=`
+    <tr>
+      <td>A${e.id}</td>
+      <td>${e.d}</td>
+      <td><b>${getAccount(e.d).name}</b></td>
+      <td class="right">${euro(e.amount)}</td>
+      <td class="right">—</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>${e.c}</td>
+      <td style="padding-left:28px">
+        ${getAccount(e.c).name}
+      </td>
+      <td class="right">—</td>
+      <td class="right">${euro(e.amount)}</td>
+    </tr>
+    <tr>
+      <td colspan="5" style="color:#64748b">
+        31 Mei 2025 • ${e.title}
+      </td>
+    </tr>
+  `;
+});
+
+const journalTotal=entries.reduce(
+  (total,e)=>total+e.amount,0
+);
+
+journalHTML+=`
+  <tr class="total">
+    <td colspan="3">TOTAL</td>
+    <td class="right">${euro(journalTotal)}</td>
+    <td class="right">${euro(journalTotal)}</td>
+  </tr>
+`;
+document.getElementById('journalTable').innerHTML=
+  journalHTML;
+
+// BUKU BESAR
+let ledgerHTML='';
+
+accounts.forEach(a=>{
+  let saldo=a.debit-a.credit;
+  let rows='';
+
+  if(a.debit||a.credit){
+    rows+=`
+      <tr>
+        <td>Saldo Awal</td>
+        <td>✓</td>
+        <td class="right">${money(a.debit)}</td>
+        <td class="right">${money(a.credit)}</td>
+        <td class="right">
+          ${euro(Math.abs(saldo))}
+        </td>
+      </tr>
+    `;
+  }
+
+  transactions(a.code).forEach(t=>{
+    saldo+=t.debit-t.credit;
+    rows+=`
+      <tr>
+        <td>A${t.ref}</td>
+        <td>J4</td>
+        <td class="right">${money(t.debit)}</td>
+        <td class="right">${money(t.credit)}</td>
+        <td class="right">
+          ${euro(Math.abs(saldo))}
+          ${saldo>=0?'Dr':'Cr'}
+        </td>
+      </tr>
+    `;
+  });
+
+  ledgerHTML+=`
+    <details class="ledger-item"
+      data-key="${a.code} ${a.name.toLowerCase()}">
+      <summary>
+        ${a.code} • ${a.name}
+        <span style="float:right;color:#2563eb">
+          ${euro(Math.abs(saldo))}
+          ${saldo>=0?'Dr':'Cr'}
+        </span>
+      </summary>
+      <div class="details-content">
+        <table>
+          <thead>
+            <tr>
+              <th>Uraian</th>
+              <th>Ref.</th>
+              <th class="right">Debit</th>
+              <th class="right">Kredit</th>
+              <th class="right">Saldo</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </details>
+  `;
+});
+
+document.getElementById('ledgerList').innerHTML=
+  ledgerHTML;
+
+function filterLedger(){
+  let query=document.getElementById('search')
+    .value.toLowerCase();
+  document.querySelectorAll('.ledger-item')
+    .forEach(item=>{
+      item.style.display=
+        item.dataset.key.includes(query)?'':'none';
+    });
+}
+
+// NSSD
+const adjusted=accounts.map(a=>({
+  ...a,...endingBalance(a)
+}));
+
+const totals=makeTable('adjusted',adjusted);
+const balanced=totals.debit===totals.credit;
+
+document.getElementById('summaryTotal').innerText=
+  euro(totals.debit);
+
+document.getElementById('status').innerText=
+  balanced?'✓ Seimbang':'✕ Tidak Seimbang';
+
+document.getElementById('check').innerHTML=
+  balanced
+  ? `<b>✓ Neraca Seimbang</b><br>
+     Total debit ${euro(totals.debit)} sama
+     dengan total kredit ${euro(totals.credit)}.`
+  : 'Neraca belum seimbang, periksa kembali.';
+
+// SOAL & PEMBAHASAN
+document.getElementById('facts').innerHTML=
+  entries.map(e=>`
+    <div class="note">
+      <b>${e.id}. ${e.title}</b>
+      <p>${e.desc}</p>
+    </div>
+  `).join('');
+
+document.getElementById('explanation').innerHTML=
+  entries.map(e=>`
+    <div class="note">
+      <h3>${e.id}. ${e.title}</h3>
+      <p><b>Perhitungan:</b> ${e.formula}</p>
+      <p>${e.desc}</p>
+      <p>
+        <b>Debit:</b> ${getAccount(e.d).name}<br>
+        <b>Kredit:</b> ${getAccount(e.c).name}<br>
+        <b>Jumlah:</b> ${euro(e.amount)}
+      </p>
+    </div>
+  `).join('');
+
+// DOWNLOAD CSV
+function exportCSV(){
+  let rows=[
+    ['Account Number','Account Name','Debit','Credit'],
+    ...adjusted.map(a=>[
+      a.code,a.name,a.debit,a.credit
+    ]),
+    ['','TOTAL',totals.debit,totals.credit]
+  ];
+
+  let csv='\uFEFF'+rows.map(row=>
+    row.map(v=>'"'+String(v).replaceAll('"','""')+'"')
+       .join(';')
+  ).join('\n');
+
+  let blob=new Blob([csv],{
+    type:'text/csv;charset=utf-8;'
+  });
+
+  let url=URL.createObjectURL(blob);
+  let link=document.createElement('a');
+  link.href=url;
+  link.download='Cuono_Consulting_NSSD.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
